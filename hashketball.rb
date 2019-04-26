@@ -14,9 +14,8 @@ game_hash = {
       "Brook Lopez" => {number:"11", shoe:"17", points:"17",rebounds:"19", assists:"10", steals:"3", blocks:"1", slam_dunks:"15"},
       "Mason Plumlee" => {number: "1", shoe:"19", points:"26",rebounds:"12", assists:"6", steals:"3", blocks:"8", slam_dunks:"5"},
       "Jason Terry" => {number: "31", shoe:"15", points:"19",rebounds:"2", assists:"2", steals:"4", blocks:"11", slam_dunks:"1"}
-
     }
-  }, #needed to add , after the } bc there is a second part 
+  }, #needed to add , after the } bc there is a second part
 
 :away => {
 
@@ -31,3 +30,54 @@ game_hash = {
       } #since its a hash and not an array
     }
 }
+
+
+def num_points_scored(player_name)
+  hash = game_hash
+  hash.each do |home_away, data|
+    data.each do |attribute, info|
+      if info.include? (player_name)
+        return hash[home_away][attribute][player_name][:points]
+
+    #[:team_name][:colors][:players][:points]
+    #puts "#{player}: #{points}"
+      end
+    end
+  end
+end
+
+
+def shoe_size(player_name)
+  hash = game_hash
+hash.each do |home_away, data|
+  data.each do |attribute, info|
+    if info.include?(player_name)
+      return hash[home_away][attribute][player_name][:shoe]
+      end
+    end
+  end
+end
+
+
+def team_colors(team_name)
+  hash = game_hash
+  hash.each do |home_away, data|
+    data.each do |t_name, attribute|
+      if attribute.include?(team_name)
+        return hash[home_away][t_name][team_name][:colors]
+      end
+    end
+  end
+end
+
+
+def team_names(name_of_team)
+  hash = game_hash
+  hash.each do |home_away, data|
+    data.each do |attribute, info|
+      if info.include?(name_of_team)
+        return [home_away][attribute][name_of_team][:team_name]
+      end
+    end
+  end
+end
