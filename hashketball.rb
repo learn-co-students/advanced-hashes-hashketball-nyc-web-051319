@@ -51,18 +51,22 @@ def num_points_scored(player_name)
   result
 end
 
-
 def shoe_size(player_name)
-  #hash = []
+  result = 0
     game_hash.each do |keys, values|
-      keys[:players].each do |data_k, data_v|
+      values.each do |data_k, data_v|
         if data_k == :players
-          result = [data_v][:shoe]
+          data_v.each do |current_player, player_data|
+            if player_name == current_player
+                result = player_data[:shoe]   #defined in this if block -- so you dont have access when outside of that if block -- once def. outside of block, -- has to do with scope
+            end
+          end
         end
       end
-    result
-  end
+    end
+  result
 end
+
 
 
 def team_colors(name_of_team)
@@ -81,13 +85,15 @@ end
 def team_names
   hash = []
    game_hash.each do |keys, values|
-    keys.each do |data_k, data_v|
+    values.each do |data_k, data_v|
         if data_k == :team_name #call it as a key and not a string as you were b4
-          hash << [data_v].split(",")
+          hash << data_v #[:team_name].join(",")
+
+          #binding.pry
         end
       end
-    hash
-  end
+    end
+  hash #want hash  to be the last thing to run in this method -- remember to match up return when calling it
 end
 
 
@@ -98,7 +104,7 @@ def player_numbers(teams)
         game_hash[:home][:players].each do |name, stats| #name in a string -- displaying stats with all info in the array
           stats.each do |stat_k, stat_v| #iterate through stats which include keys and values
           if stat_k == :number  #if the key is number we return array with it's value
-            [] << [stat_v]
+            hash << stat_v
           end
         end
       end
@@ -106,20 +112,25 @@ def player_numbers(teams)
       game_hash[:away][:players].each do |name, stats|
         stats.each do |stat_k, stat_v|
           if stat_k == :number
-            [] << stat_v
+            hash << stat_v
           end
         end
       end
-    hash
-  end
+    end
+  hash
 end
 
 def player_stats(player_name)
-  hash = []
+  hash = {} #empty hash
     game_hash.each do |keys, values|
-      keys.each do |stat_k, stat_v|
-        if stat_k == player_name
-          [] << [stat_v][:number][:shoe][:points][:rebounds][:assists][:steals][:blocks][:slam_dunks]
+      values.each do |stat_k, stat_v|
+        if stat_k == :players
+          stat_v.each do |player_n, player_value|
+            if player_n == player_name
+              hash = player_value
+          #hash = stat_v #[:number][:shoe][:points][:rebounds][:assists][:steals][:blocks][:slam_dunks] #reset to player stats
+              end
+            end
           end
         end
       end
@@ -128,25 +139,65 @@ def player_stats(player_name)
 
 def big_shoe_rebounds
   biggest_shoe = nil
-  big_shoe_rebounds = nil
-    game_hash.each do |keys, values|
-      values.each do |stat_k, stat_v|
-        if stat_k == :players
-            stat_v.each do |name_k, name_v|
-              if name_k == :shoe
+    biggest_shoe_rebounds = nil
+      game_hash.each do |keys, values|
+        values.each do |stat_k, stat_v|
+          if stat_k == :players
+            stat_v.each do |player_name, player_data|
+                #binding.pry
                 if biggest_shoe == nil
-                  biggest_shoe = value
-                    biggest_shoe_player_rebounds = game_hash
-                      [keys][:players][:shoe][:rebounds]
-                        elsif stat_v > biggest_shoe
-                          biggest_shoe = stat_v
-                            biggest_shoe_player_rebounds = game_hash
-                            [keys][:players][:rebounds]
-                        end
+                  biggest_shoe = player_data[:shoe]
+                    biggest_shoe_rebounds = player_data[:rebounds] #in player_data with the person with biggest shoe -- calling their rebound  #game_hash[keys][:players][:shoe][:rebounds]
+                elsif player_data[:shoe] > biggest_shoe
+                          biggest_shoe = player_data[:shoe]
+                          biggest_shoe_rebounds = player_data[:rebounds]  #biggest_shoe_player_rebounds = game_hash[keys][:players][:rebounds]
                       end
                     end
                   end
                 end
               end
-            biggest_shoe_player_rebounds
+            biggest_shoe_rebounds
           end
+
+#there was a scope issue here because you can't invent variables in the middle of a block -- so always set it to a value of something like nil at the top.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#fig out name of player who has larget shoe size, then call rebound method & pass in players name & then you'll get result
+
+
+#def most_points_scored
+
+#end
+
+
+#  def winning_team
+
+
+#  end
+
+
+#   def player_with_longest_name
+#     long_name = nil
+#       game_hash.each do |keys, values|
+#         keys.each do |player_name, player_info|
+#           if player_name == :players
+#               player_name.length
+#
+#       end
+#     end
+#   end
+# end
