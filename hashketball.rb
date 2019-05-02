@@ -243,5 +243,77 @@ def most_points_scored
         player = this_player
       end
     end
-  end 
+  end
+  player
+end
+
+def winning_team
+  score_keeper = {}
+
+  game_hash.each do |location, team_data|
+    score = 0
+    team_data[:players].each do |player, info|
+      score += info[:points]
+    end
+    score_keeper[team_data[:team_name]] = score
+  end
+
+  winner = ""
+
+  score_keeper.each do |k,v|
+    if v == score_keeper.values.max
+      winner = k
+    end
+  end
+
+  winner
+
+end
+
+def player_with_longest_name
+  length_counter = {}
+
+  game_hash.each do |location, team_data|
+    count = 0
+    team_data[:players].each do |name, info|
+      count += name.length
+      length_counter[name] = count
+    end
+  end
+
+  player = ""
+  length_counter.each do |k,v|
+    if v == length_counter.values.max
+      player = k
+    end
+  end
+
+  player
+end
+
+def long_name_steals_a_ton?
+  steal_counter = {}
+
+  game_hash.each do |location, team_data|
+    count = 0
+    team_data[:players].each do |name, info|
+      count += info[:steals]
+      steal_counter[name] = count
+    end
+  end
+
+  steal_player = ""
+
+  steal_counter.each do |k,v|
+    if v == steal_counter.values.max
+      steal_player = k
+    end
+  end
+
+  if steal_player == player_with_longest_name
+    true
+  else
+    false
+  end
+
 end
