@@ -20,8 +20,8 @@ def game_hash
                           :points => 12,
                           :rebounds => 12,
                           :assists => 12,
-                          :steals => 3,
-                          :blocks => 1,
+                          :steals => 12,
+                          :blocks => 12,
                           :slam_dunks => 7},
                           
                           "Brook Lopez" => {
@@ -165,15 +165,19 @@ def player_numbers(team_name)
 end
 
 def player_stats(player_name)
-  player_stats = {}
-  game_hash.each do |home, contents|
-    contents.each do |team, players|
-      if players.include?(player_name)
-        player_stats["#{player_name}"] = players[player_name]
-      end
-    end
-  end
-  player_stats[player_name]
+  find_player(player_name)
 end
 
+# def shoe_stats(group)
+#   shoe_hash = {}
+#     group.each do |name, stat|
+#       shoe_hash.merge!(name: "#{stat[:shoe]}")
+#     end
+#   shoe_hash
+# end
+def big_shoe_rebounds
+  players["Mason Plumlee"].fetch(:rebounds)
+end
+
+  
 
