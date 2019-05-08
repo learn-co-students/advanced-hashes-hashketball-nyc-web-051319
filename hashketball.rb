@@ -1,7 +1,6 @@
 require'pry'
 
 
-
 def game_hash
   {:home => {:team_name => "Brooklyn Nets",
             :colors => ["Black", "White"],
@@ -130,33 +129,51 @@ def shoe_size(player_name)
   find_player(player_name).fetch(:shoe)
 end
 
-def team_name(team_name)
-  array = []
-  game_hash.each do |keys, values|
-    values.each do |values, strings|
-      if strings == team_name
-        array << strings
-      end
-    end
-  end 
-  array
-end
-
 def team_colors(team_name)
   colors_array = []
   game_hash.each do |keys, values|
     values.each do |attributes, strings|
       if strings == team_name
-        game_hash.each do |keys, values|
-          if values == :colors
-          binding.pry
+        colors_array << game_hash[keys][:colors]
+      end
+    end
+  end
+  colors_array.flatten
+end
+
+
+def team_names
+  array = []
+  game_hash.collect do |keys, values|
+    array << game_hash[keys][:team_name]
+  end 
+  array
+end
+
+def player_numbers(team_name)
+  numbers_array = []
+  game_hash.each do |home, contents|
+    contents.each do |attributes, strings|
+      if strings == team_name
+        contents[:players].each do |players, stats|
+          numbers_array << stats[:number]
         end
       end
     end
   end
+  numbers_array
 end
 
-
-
+def player_stats(player_name)
+  player_stats = {}
+  game_hash.each do |home, contents|
+    contents.each do |team, players|
+      if players.include?(player_name)
+        player_stats["#{player_name}"] = players[player_name]
+      end
+    end
+  end
+  player_stats[player_name]
+end
 
 
