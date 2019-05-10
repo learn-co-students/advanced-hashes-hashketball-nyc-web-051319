@@ -1,11 +1,3 @@
-# Hashketball
-
-## Objectives
-
-1. Practice building nested hashes.
-2. Practice iterating over nested hashes.
-
-## Instructions
 
 Great news! You're going to an NBA game. The only catch is that you've been volunteered to keep stats at the game.
 
